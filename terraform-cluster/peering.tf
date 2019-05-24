@@ -4,7 +4,7 @@ data "terraform_remote_state" "primary_vault" {
   config = {
     hostname = "${var.ptfe_fqdn}"
     organization = "${var.tfe_org}"
-#    token = "${var.ptfe_token}"
+    token = "${var.ptfe_token}"
     workspaces {
       name = "${var.primary_workspace}"
     }
