@@ -2,10 +2,11 @@ data "terraform_remote_state" "primary_vault" {
   count   = "${var.cluster == "Secondary" ? 1 : 0}"
   backend = "remote" 
   config = {
-    hostname = "tfe001.khemani.com"
-    organization = "khemani"
+    hostname = "${var.ptfe_fqdn}"
+    organization = "${var.tfe_org}"
+#    token = "${var.ptfe_token}"
     workspaces {
-      name = "${var.tfe_org}/${var.primary_workspace}"
+      name = "${var.primary_workspace}"
     }
   }
 }

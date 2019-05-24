@@ -1,3 +1,11 @@
+variable "ptfe_fqdn" {
+  default = "app.terraform.io"
+}
+
+variable "ptfe_token" {
+  default = ""
+}
+
 variable "region" {
   description = "Main Region to Deploy instances"
   default     = "us-east-2"
