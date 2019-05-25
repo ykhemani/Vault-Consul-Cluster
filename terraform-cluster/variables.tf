@@ -11,6 +11,9 @@ variable "region" {
   default     = "us-east-2"
 }
 
+variable "peer_region" {
+}
+
 variable "consul_cluster_size" {
   description = "Size of consul cluster"
   default     = 3
