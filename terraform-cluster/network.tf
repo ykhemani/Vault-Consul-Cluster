@@ -2,6 +2,7 @@
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
+  version = "1.66.0"
 
   name            = "VaultCluster VPC - ${var.environment_name}"
   cidr            = "10.${var.cluster == "Secondary" ? 1 : 0}.0.0/16"
