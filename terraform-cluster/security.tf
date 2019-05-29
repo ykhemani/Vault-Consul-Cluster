@@ -1,6 +1,7 @@
 # Vault specific Security Group
 module "vault_service" {
   source = "terraform-aws-modules/security-group/aws"
+  version = "2.17.0"
 
   name        = "vault-service-${var.environment_name}"
   description = "vault services"
