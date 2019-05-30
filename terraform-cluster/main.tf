@@ -28,6 +28,7 @@ resource "aws_autoscaling_group" "vault_servers" {
   force_delete         = true
   depends_on           = ["aws_autoscaling_group.consul_servers"]
   load_balancers       = ["${aws_elb.vault_elb.id}"]
+  iam_instance_profile = "${aws_iam_instance_profile.vault-kms-unseal.id}"
 
   tag {
     key                 = "Name"
@@ -118,17 +119,17 @@ resource "aws_autoscaling_group" "consul_servers" {
 #  iam_instance_profile        = "${aws_iam_instance_profile.hashistack.id}"
 #  subnet_id                   = "${element(module.vpc.public_subnets, 0)}"
 #  associate_public_ip_address = true
-
-
+#
+#
 #  security_groups = [
 #    "${module.vault_service.this_security_group_id}",
 #    "${module.consul_service.this_security_group_id}",
 #  ]
-
-
+#
+#
 #  tags {
 #    Name  = "BastionHost"
-#    owner = "Adam"
+#    owner = "ykhemani"
 #    ttl   = "5h"
 #  }
 #}
