@@ -1,3 +1,8 @@
+resource "random_pet" "env" {
+  length    = 2
+  separator = "_"
+}
+
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect  = "Allow"
