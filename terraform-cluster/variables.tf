@@ -41,6 +41,10 @@ variable "consul_ami" {
   description = "Consul AMI Image"
 }
 
+variables "consul_license" {
+  default     = ""
+}
+
 variable "cluster" {
   description = "Primary or Secondary Cluster"
   default     = "Primary"
