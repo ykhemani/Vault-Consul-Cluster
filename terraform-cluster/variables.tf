@@ -49,7 +49,7 @@ variable "consul_instance_type" {
   default = "t2.small"
 }
 
-variable "bastion_host_instance_type {
+variable "bastion_host_instance_type" {
   default = "t2.micro"
 }
 
