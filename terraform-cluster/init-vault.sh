@@ -67,9 +67,21 @@ EOF
 cat <<EOF > /etc/vault.d/auto_unseal.hcl
 seal "awskms" {
   region = "${kms_key_region}"
-  access_key = "${access_key}"
-  secret_key = "${secret_key}"
   kms_key_id = "${kms_key_id}"
+}
+EOF
+
+cat <<EOF > /etc/vault.d/storage.hcl
+storage "consul" {
+  address = "127.0.0.1:8500"
+  path    = "vaultdemo"
+}
+EOF
+
+cat <<EOF > /etc/vault.d/vault.hcl
+listener "tcp" {
+  address       = "0.0.0.0:8200"
+  tls_disable   = 1
 }
 EOF
 
@@ -78,7 +90,11 @@ cluster_addr = "http://${lb_addr}:8201"
 EOF
 chown vault:vault /etc/vault.d/auto_unseal.hcl
 chown vault:vault /etc/vault.d/vault_cluster_addr.hcl
+chown vault:vault /etc/vault.d/vault.hcl
+chown vault:vault /etc/vault.d/storage.hcl
+sudo chmod 400 /etc/vault.d/*hcl
 chown consul:consul /etc/consul.d/consul.json
+sudo chmod 400 /etc/consul.d/consul.json
 # start consul once it is configured correctly
 systemctl start consul
 
