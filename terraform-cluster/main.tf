@@ -3,7 +3,8 @@ resource "aws_launch_configuration" "vault-server" {
   image_id             = "${var.vault_ami}"
   instance_type        = "t2.small"
   key_name             = "${var.key_name}"
-  iam_instance_profile = "${aws_iam_instance_profile.hashistack.id}"
+#  iam_instance_profile = "${aws_iam_instance_profile.hashistack.id}"
+  iam_instance_profile = "${aws_iam_instance_profile.vault-kms-unseal.id}"
 
   user_data = "${data.template_file.vault.rendered}"
 
@@ -28,7 +29,6 @@ resource "aws_autoscaling_group" "vault_servers" {
   force_delete         = true
   depends_on           = ["aws_autoscaling_group.consul_servers"]
   load_balancers       = ["${aws_elb.vault_elb.id}"]
-  iam_instance_profile = "${aws_iam_instance_profile.vault-kms-unseal.id}"
 
   tag {
     key                 = "Name"
