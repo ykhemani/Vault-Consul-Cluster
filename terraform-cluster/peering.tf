@@ -32,7 +32,7 @@ resource "aws_vpc_peering_connection" "peer" {
   peer_vpc_id   = "${data.terraform_remote_state.primary_vault.vpc_id}"
   peer_owner_id = "${data.aws_caller_identity.peer.account_id}"
   peer_region   = "${var.peer_region}"
-  auto_accept   = true
+  auto_accept   = false
 
   tags {
     Side = "Requester"
