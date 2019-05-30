@@ -11,6 +11,7 @@ resource "aws_launch_configuration" "vault-server" {
   security_groups = [
     "${module.vault_service.this_security_group_id}",
     "${module.consul_service.this_security_group_id}",
+    "${module.all_internal.this_security_group_id}",
   ]
 
   lifecycle {
@@ -64,6 +65,7 @@ resource "aws_launch_configuration" "consul-server" {
   security_groups = [
     "${module.vault_service.this_security_group_id}",
     "${module.consul_service.this_security_group_id}",
+    "${module.all_internal.this_security_group_id}",
   ]
 
   lifecycle {
@@ -124,6 +126,7 @@ resource "aws_autoscaling_group" "consul_servers" {
 #  security_groups = [
 #    "${module.vault_service.this_security_group_id}",
 #    "${module.consul_service.this_security_group_id}",
+#    "${module.all_internal.this_security_group_id}",
 #  ]
 #
 #
