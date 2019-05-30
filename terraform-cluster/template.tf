@@ -5,6 +5,7 @@ data "template_file" "consul" {
     cluster_size     = "${var.consul_cluster_size}"
     environment_name = "${var.environment_name}"
     local_region     = "${var.region}"
+    license          = "${var.consul_license}"
   }
 }
 
