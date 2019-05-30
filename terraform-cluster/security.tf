@@ -50,6 +50,17 @@ module "mysql_service" {
   egress_rules = ["all-all"]
 }
 
+module "all_internal" {
+  source = "terraform-aws-modules/security-group/aws"
+  name        = "all-internal"
+  description = "all-internal"
+  vpc_id      = "${module.vpc.vpc_id}"
+  ingress_cidr_blocks = ["10.1.0.0/16", ""10.0.0.0/16"]
+  ingress_rules       = ["all-all"]
+
+  egress_rules = ["all-all"]
+}
+
 #provider "vault" {}
 
 #data "vault_aws_access_credentials" "aws_creds" {
