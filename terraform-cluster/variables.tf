@@ -41,7 +41,7 @@ variable "consul_ami" {
   description = "Consul AMI Image"
 }
 
-variables "consul_license" {
+variable "consul_license" {
   default     = ""
 }
 
