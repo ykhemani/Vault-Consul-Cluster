@@ -23,6 +23,27 @@ data "aws_iam_policy_document" "vault-kms-unseal" {
       "ec2:DescribeInstances"
     ]
   }
+  statement {
+    sid       = "AllowSelfAssembly"
+    effect    = "Allow"
+    resources = ["*"]
+
+    actions = [
+      "autoscaling:DescribeAutoScalingGroups",
+      "autoscaling:DescribeAutoScalingInstances",
+      "ec2:DescribeAvailabilityZones",
+      "ec2:DescribeInstanceAttribute",
+      "ec2:DescribeInstanceStatus",
+      "ec2:DescribeInstances",
+      "ec2:DescribeSubnets",
+      "ec2:DescribeVpcs",
+      "ec2:DescribeTags",
+      "iam:GetInstanceProfile",
+      "iam:GetUser",
+      "iam:GetRole",
+    ]
+  }
+
 }
 
 resource "aws_iam_role" "vault-kms-unseal" {
