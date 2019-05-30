@@ -55,7 +55,7 @@ module "all_internal" {
   name        = "all-internal"
   description = "all-internal"
   vpc_id      = "${module.vpc.vpc_id}"
-  ingress_cidr_blocks = ["10.1.0.0/16", ""10.0.0.0/16"]
+  ingress_cidr_blocks = ["10.1.0.0/16", "10.0.0.0/16"]
   ingress_rules       = ["all-all"]
 
   egress_rules = ["all-all"]
