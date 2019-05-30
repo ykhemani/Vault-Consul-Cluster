@@ -1,8 +1,3 @@
-resource "random_pet" "env" {
-  length    = 2
-  separator = "_"
-}
-
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect  = "Allow"
@@ -31,17 +26,17 @@ data "aws_iam_policy_document" "vault-kms-unseal" {
 }
 
 resource "aws_iam_role" "vault-kms-unseal" {
-  name               = "vault-kms-role-${random_pet.env.id}"
+  name               = "vault-kms-role-${var.environment_name}"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role.json}"
 }
 
 resource "aws_iam_role_policy" "vault-kms-unseal" {
-  name   = "Vault-KMS-Unseal-${random_pet.env.id}"
+  name   = "Vault-KMS-Unseal-${var.environment_name}"
   role   = "${aws_iam_role.vault-kms-unseal.id}"
   policy = "${data.aws_iam_policy_document.vault-kms-unseal.json}"
 }
 
 resource "aws_iam_instance_profile" "vault-kms-unseal" {
-  name = "vault-kms-unseal-${random_pet.env.id}"
+  name = "vault-kms-unseal-${var.environment_name}"
   role = "${aws_iam_role.vault-kms-unseal.name}"
 }
