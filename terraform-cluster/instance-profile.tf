@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "assume_role" {
+data "aws_iam_policy_document" "assume_role_kms" {
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "vault-kms-unseal" {
 
 resource "aws_iam_role" "vault-kms-unseal" {
   name               = "vault-kms-role-${var.environment_name}"
-  assume_role_policy = "${data.aws_iam_policy_document.assume_role.json}"
+  assume_role_policy = "${data.aws_iam_policy_document.assume_role_kms.json}"
 }
 
 resource "aws_iam_role_policy" "vault-kms-unseal" {
