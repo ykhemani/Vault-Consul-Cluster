@@ -41,6 +41,18 @@ variable "consul_ami" {
   description = "Consul AMI Image"
 }
 
+variable "vault_instance_type" {
+  default = "t2.small"
+}
+
+variable "consul_instance_type" {
+  default = "t2.small"
+}
+
+variable "bastion_host_instance_type {
+  default = "t2.micro"
+}
+
 variable "consul_license" {
   default     = ""
 }

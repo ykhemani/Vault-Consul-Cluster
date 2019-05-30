@@ -1,7 +1,7 @@
 resource "aws_launch_configuration" "vault-server" {
   name_prefix          = "vault-server-"
   image_id             = "${var.vault_ami}"
-  instance_type        = "t2.small"
+  instance_type        = "${var.vault_instance_type}"
   key_name             = "${var.key_name}"
 #  iam_instance_profile = "${aws_iam_instance_profile.hashistack.id}"
   iam_instance_profile = "${aws_iam_instance_profile.vault-kms-unseal.id}"
@@ -57,7 +57,7 @@ resource "aws_autoscaling_group" "vault_servers" {
 resource "aws_launch_configuration" "consul-server" {
   name_prefix          = "consul-server-"
   image_id             = "${var.consul_ami}"
-  instance_type        = "t2.small"
+  instance_type        = "${var.consul_instance_type}"
   key_name             = "${var.key_name}"
   user_data            = "${data.template_file.consul.rendered}"
   iam_instance_profile = "${aws_iam_instance_profile.hashistack.id}"
@@ -113,27 +113,29 @@ resource "aws_autoscaling_group" "consul_servers" {
   }
 }
 
-#resource "aws_instance" "bastion_host" {
-#  ami                         = "${var.consul_ami}"
-#  instance_type               = "t2.micro"
-#  key_name                    = "${var.key_name}"
-#  user_data                   = "${data.template_file.consul-agent.rendered}"
+resource "aws_instance" "bastion_host" {
+  count                       = "${var.cluster == "Primary" ? 1 : 0}"
+  ami                         = "${var.consul_ami}"
+  instance_type               = "${var.bastion_host_instance_type}"
+  key_name                    = "${var.key_name}"
+  user_data                   = "${data.template_file.consul-agent.rendered}"
 #  iam_instance_profile        = "${aws_iam_instance_profile.hashistack.id}"
-#  subnet_id                   = "${element(module.vpc.public_subnets, 0)}"
-#  associate_public_ip_address = true
-#
-#
-#  security_groups = [
-#    "${module.vault_service.this_security_group_id}",
-#    "${module.consul_service.this_security_group_id}",
-#    "${module.all_internal.this_security_group_id}",
-#  ]
-#
-#
-#  tags {
-#    Name  = "BastionHost"
-#    owner = "ykhemani"
-#    ttl   = "5h"
-#  }
-#}
+  iam_instance_profile        = "${aws_iam_instance_profile.vault-kms-unseal.id}"
+  subnet_id                   = "${element(module.vpc.public_subnets, 0)}"
+  associate_public_ip_address = true
+
+
+  security_groups = [
+    "${module.vault_service.this_security_group_id}",
+    "${module.consul_service.this_security_group_id}",
+    "${module.all_internal.this_security_group_id}",
+  ]
+
+
+  tags {
+    Name  = "BastionHost"
+    owner = "ykhemani"
+    ttl   = "5h"
+  }
+}
 
